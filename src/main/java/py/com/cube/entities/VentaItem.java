@@ -1,4 +1,4 @@
-package entities;
+package py.com.cube.entities;
 
 import java.math.BigDecimal;
 
@@ -22,12 +22,12 @@ public class VentaItem {
     private BigDecimal subTotal;
     private Venta venta;
 
-    void setPrecioUnitario(BigDecimal precioUnitario) {
+    public void setPrecioUnitario(BigDecimal precioUnitario) {
         this.precioUnitario = precioUnitario;
         recalcularSubTotal();
     }
 
-    void recalcularSubTotal() {
+    public void recalcularSubTotal() {
         if (cantidad != null && precioUnitario != null) {
             this.subTotal = cantidad.multiply(precioUnitario);
         } else {
@@ -35,7 +35,7 @@ public class VentaItem {
         }
     }
 
-    static VentaItem buildVentaItemTest() {
+    public static VentaItem buildVentaItemTest() {
         return VentaItem.builder()
                 .cantidad(new BigDecimal("2"))
                 .precioUnitario(new BigDecimal("100"))

@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
 
+import py.com.cube.entities.VentaItem;
+
 public class VentaItemTest {
     @Test
     void testSetCantidad() {

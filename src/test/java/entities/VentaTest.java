@@ -4,71 +4,75 @@ import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
 
+import py.com.cube.entities.Venta;
+import py.com.cube.entities.VentaItem;
+
 public class VentaTest {
-    @Test
-    void testCalcularValorTotalFail() {
+        @Test
+        void testCalcularValorTotalFail() {
 
-        // 1- Preparación de datos
-        Venta ventaTest = Venta.getVentaTest();
+                // 1- Preparación de datos
+                Venta ventaTest = Venta.getVentaTest();
 
-        VentaItem item1 = VentaItem.builder()
-                .cantidad(new BigDecimal("2"))
-                .precioUnitario(new BigDecimal("100"))
-                .subTotal(new BigDecimal("200"))
-                .venta(ventaTest)
-                .build();
+                VentaItem item1 = VentaItem.builder()
+                                .cantidad(new BigDecimal("2"))
+                                .precioUnitario(new BigDecimal("100"))
+                                .subTotal(new BigDecimal("200"))
+                                .venta(ventaTest)
+                                .build();
 
-        ventaTest.agregaItem(item1);
+                ventaTest.agregaItem(item1);
 
-        VentaItem item2 = VentaItem.builder()
-                .cantidad(new BigDecimal("4"))
-                .precioUnitario(new BigDecimal("100"))
-                .subTotal(new BigDecimal("200"))
-                .venta(ventaTest)
-                .build();
+                VentaItem item2 = VentaItem.builder()
+                                .cantidad(new BigDecimal("4"))
+                                .precioUnitario(new BigDecimal("100"))
+                                .subTotal(new BigDecimal("200"))
+                                .venta(ventaTest)
+                                .build();
 
-        ventaTest.agregaItem(item2);
-        // 2- Ejecución del código a probar
+                ventaTest.agregaItem(item2);
+                // 2- Ejecución del código a probar
 
-        ventaTest.calcularValorTotal();
+                ventaTest.calcularValorTotal();
 
-        // 3- Verificación de resultados
+                // 3- Verificación de resultados
 
-        System.out.println("Total venta: " + ventaTest.getValorTotal());
+                System.out.println("Total venta: " + ventaTest.getValorTotal());
 
-        assert ventaTest.getValorTotal().compareTo(new BigDecimal("600")) != 0;
-    }
-     @Test
-    void testCalcularValorTotalOk() {
+                assert ventaTest.getValorTotal().compareTo(new BigDecimal("600")) != 0;
+        }
 
-        // 1- Preparación de datos
-        Venta ventaTest = Venta.getVentaTest();
+        @Test
+        void testCalcularValorTotalOk() {
 
-        VentaItem item1 = VentaItem.builder()
-                .cantidad(new BigDecimal("2"))
-                .precioUnitario(new BigDecimal("100"))
-                .subTotal(new BigDecimal("200"))
-                .venta(ventaTest)
-                .build();
+                // 1- Preparación de datos
+                Venta ventaTest = Venta.getVentaTest();
 
-        ventaTest.agregaItem(item1);
+                VentaItem item1 = VentaItem.builder()
+                                .cantidad(new BigDecimal("2"))
+                                .precioUnitario(new BigDecimal("100"))
+                                .subTotal(new BigDecimal("200"))
+                                .venta(ventaTest)
+                                .build();
 
-        VentaItem item2 = VentaItem.builder()
-                .cantidad(new BigDecimal("4"))
-                .precioUnitario(new BigDecimal("100"))
-                .subTotal(new BigDecimal("200"))
-                .venta(ventaTest)
-                .build();
+                ventaTest.agregaItem(item1);
 
-        ventaTest.agregaItem(item2);
-        // 2- Ejecución del código a probar
+                VentaItem item2 = VentaItem.builder()
+                                .cantidad(new BigDecimal("4"))
+                                .precioUnitario(new BigDecimal("100"))
+                                .subTotal(new BigDecimal("200"))
+                                .venta(ventaTest)
+                                .build();
 
-        ventaTest.calcularValorTotal();
+                ventaTest.agregaItem(item2);
+                // 2- Ejecución del código a probar
 
-        // 3- Verificación de resultados
+                ventaTest.calcularValorTotal();
 
-        System.out.println("Total venta: " + ventaTest.getValorTotal());
+                // 3- Verificación de resultados
 
-        assert ventaTest.getValorTotal().compareTo(new BigDecimal("400")) == 0;
-    }
+                System.out.println("Total venta: " + ventaTest.getValorTotal());
+
+                assert ventaTest.getValorTotal().compareTo(new BigDecimal("400")) == 0;
+        }
 }

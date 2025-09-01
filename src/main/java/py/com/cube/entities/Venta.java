@@ -1,4 +1,4 @@
-package entities;
+package py.com.cube.entities;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,13 +28,13 @@ public class Venta {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public void agregaItem(VentaItem item){
+    public void agregaItem(VentaItem item) {
         this.items.add(item);
         item.setVenta(this);
         this.calcularValorTotal();
     }
 
-   static Venta getVentaTest() {
+    public static Venta getVentaTest() {
         return Venta.builder()
                 .clienteId(1l)
                 .valorTotal(BigDecimal.ZERO)
