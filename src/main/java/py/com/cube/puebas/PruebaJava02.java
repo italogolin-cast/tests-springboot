@@ -1,4 +1,4 @@
-package py.com.cube;
+package py.com.cube.puebas;
 
 import py.com.cube.entities.factura.Factura;
 

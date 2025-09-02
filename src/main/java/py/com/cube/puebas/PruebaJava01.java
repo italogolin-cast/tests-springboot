@@ -1,4 +1,4 @@
-package py.com.cube;
+package py.com.cube.puebas;
 
 import java.math.BigDecimal;
 import java.util.stream.LongStream;
