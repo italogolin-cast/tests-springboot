@@ -1,12 +1,10 @@
 package py.com.cube;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.stream.LongStream;
 
 import py.com.cube.entities.factura.Factura;
-import py.com.cube.entities.factura.dto.ResultadoCalculoPromedioVenta;
+import py.com.cube.entities.factura.dto.Tarea01Result;
 import py.com.cube.utils.CalculadoraUtils;
 
 public class PruebaJava01 {
@@ -16,39 +14,46 @@ public class PruebaJava01 {
     // 3- Suma el monto de las facturas cuyo numero de factura es multiplo de 7
 
     public static void main(String[] args) {
-        Long cantidadFacturasInferiora5Millones = 0l;
-        Map<Long, BigDecimal> facturasConNumeroFacturaMultiplo7 = new HashMap<Long, BigDecimal>();
-        for (long i = 1; i <= 100; i++) {
+
+        final Tarea01Result resultado = new Tarea01Result();
+
+        LongStream.range(1, 101).forEach(i -> {
             Factura f = new Factura(i);
 
-            BigDecimal nuevoMontoVenta = CalculadoraUtils.generaMontoAleatorioEntre0a10Millones();
+            BigDecimal nuevoMontoVenta = CalculadoraUtils.generaMontoAleatorio(1l, 10_000_000l);
             f.setMontoVenta(nuevoMontoVenta);
 
-            // Suma contador si el valor de la venta es menor a 5 millones
-            if (CalculadoraUtils.comparaMontoInferiorA5Millones(nuevoMontoVenta))
-                cantidadFacturasInferiora5Millones++;
+            // 1- Aumenta contador cuando cumple con condicion de monto menor a 5 millones
+            if (CalculadoraUtils.comparaMontoInferiorA5Millones(nuevoMontoVenta)) {
+                resultado.incrementCantidadFacturasInferiorA5Millones();
+            }
 
-            // Suma el monto de la venta si el numero de factura es multiplo de 7
-            if (CalculadoraUtils.numeroFacturaEsMultiploDe7(i))
-                facturasConNumeroFacturaMultiplo7.put(i, nuevoMontoVenta);
+            // 2- Filtra las facturas con numero de factura multiplo de 7 y agrega el
+            // contador y aumenta la suma
+            if (i % 7 == 0)
+                resultado.addToSumaTotalDelMontoDeFacturasConNumeroDeFacturaMultiploDe7(nuevoMontoVenta);
 
-            System.out.print("Numero factura: " + i + ", monto: " + f.getMontoVenta() + "\n");
-        }
-        System.out.println("-".repeat(24));
+            System.out.println("Factura Nro: " + f.getNumero() + " - Monto Venta: " + nuevoMontoVenta);
+
+            // 3- Suma el total de las facturas y cuenta la cantidad de las mismas
+            resultado.addSumaTotal(nuevoMontoVenta);
+
+        });
+
+        System.out.println("-".repeat(64));
 
         System.out
-                .println("Cantidad de facturas con monto inferior a 5 millones: " + cantidadFacturasInferiora5Millones);
+                .println("1 - Cantidad de facturas con monto inferior a 5 millones: "
+                        + resultado.getCantidadFacturasInferiora5Millones());
 
-        ResultadoCalculoPromedioVenta resultadoPromedioVentaConNumeroFacturaMultiploDe7 = CalculadoraUtils
-                .calculaPromedioVenta(new ArrayList<>(facturasConNumeroFacturaMultiplo7.values()));
-        System.out.println("Cantidad de facturas con numero de factura multiplo de 7: "
-                + facturasConNumeroFacturaMultiplo7.size());
-        System.out.println("Suma total de monto de facturas con numero de factura multiplo de 7: " +
-                resultadoPromedioVentaConNumeroFacturaMultiploDe7.getSumaTotalMontoVentas());
-        System.out.println("Promedio de ventas de facturas con numero multiplo de 7: "
-                + resultadoPromedioVentaConNumeroFacturaMultiploDe7.getPromedioMontoVentas());
+        System.out.println("2 - Suma total de monto de facturas con numero de factura multiplo de 7: " +
+                resultado.getSumaTotalDelMontoDeFacturasConNumeroDeFacturaMultiploDe7());
 
-        System.out.println("-".repeat(24));
+        System.out.printf(
+                "3 - La suma total de los montos de las facturas es de: %s, y el promedio de las mismas es: %s%n",
+                resultado.getSumaTotalMontoVentas(), resultado.getPromedioMontoVentas());
+
+        System.out.println("-".repeat(64));
 
         System.out.println("Fin de la tarea");
 

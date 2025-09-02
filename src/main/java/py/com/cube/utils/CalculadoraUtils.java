@@ -2,9 +2,7 @@ package py.com.cube.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
-
-import py.com.cube.entities.factura.dto.ResultadoCalculoPromedioVenta;
+import java.text.DecimalFormat;
 
 public class CalculadoraUtils {
     public static void imprimeSumaDeMontoVentaFacturaConNumeroFacturaMultiploDe7(
@@ -21,25 +19,23 @@ public class CalculadoraUtils {
         return numeroFactura % 7 == 0;
     }
 
-    public static BigDecimal generaMontoAleatorioEntre0a10Millones() {
-        Long min = 0l;
-        Long max = 10_000_000l;
-        Long range = max - min + 1;
-        return new BigDecimal((long) (Math.random() * range) + min);
+    public static BigDecimal generaMontoAleatorio(Long minimo, Long maximo) {
+        Long range = maximo - minimo + 1;
+        return new BigDecimal((long) (Math.random() * range) + minimo);
     }
 
-    public static ResultadoCalculoPromedioVenta calculaPromedioVenta(List<BigDecimal> valores) {
-        if (valores == null || valores.isEmpty())
-            return ResultadoCalculoPromedioVenta.builder()
-                    .promedioMontoVentas(BigDecimal.ZERO)
-                    .sumaTotalMontoVentas(BigDecimal.ZERO)
-                    .build();
+    public static BigDecimal calculaPromedioVenta(BigDecimal sumaMontoVenta,
+            Long cantidadTotalFacturas) {
+        if (sumaMontoVenta == null || cantidadTotalFacturas == 0l)
+            return BigDecimal.ZERO;
 
-        BigDecimal suma = valores.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal promedio = suma.divide(new BigDecimal(valores.size()), 2, RoundingMode.HALF_UP);
-        return ResultadoCalculoPromedioVenta.builder()
-                .promedioMontoVentas(promedio)
-                .sumaTotalMontoVentas(suma)
-                .build();
+        return sumaMontoVenta.divide(new BigDecimal(cantidadTotalFacturas), 2, RoundingMode.HALF_UP);
+    }
+
+    public static String formatearBigDecimalGuarani(BigDecimal valor) {
+        DecimalFormat df = new DecimalFormat("#,###");
+        df.setGroupingSize(3);
+        df.setGroupingUsed(true);
+        return df.format(valor);
     }
 }
