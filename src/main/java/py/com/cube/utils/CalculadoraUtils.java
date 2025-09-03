@@ -38,4 +38,24 @@ public class CalculadoraUtils {
         df.setGroupingUsed(true);
         return df.format(valor);
     }
+
+    public static String hacerSuma(Integer numeroEjemplo) {
+        numeroEjemplo = CalculadoraUtils.validarNumero(numeroEjemplo);
+        return "La suma es: " + (125 + numeroEjemplo);
+
+    }
+
+    public static Integer validarNumero(Integer numero) {
+        try {
+            int i = numero;
+            return i;
+        } catch (Exception e) {
+
+            if (numero == null)
+                return 0;
+
+            throw e;
+        }
+
+    }
 }

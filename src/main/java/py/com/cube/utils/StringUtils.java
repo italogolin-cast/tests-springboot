@@ -39,4 +39,22 @@ public class StringUtils {
         return cantidadRepetida;
 
     }
+
+    public static String recortarTexto(String texto, int longitud) {
+        try {
+            System.out.println(">>>>> El nombre es: " + texto + " y la longitud es: " + longitud);
+
+            String recorte = texto.substring(0, longitud);
+
+            return recorte;
+        } catch (Exception e) {
+            if (texto == null) {
+                return "El texto no puede ser recortado por ser nulo";
+            }
+            Integer excedeCantidadCaracteres = longitud - texto.length();
+            return "El texto no puede ser recortado por exceder en " + excedeCantidadCaracteres
+                    + " caracteres el limite permitido";
+        }
+
+    }
 }
